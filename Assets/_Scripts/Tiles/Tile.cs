@@ -8,10 +8,16 @@ public abstract class Tile : MonoBehaviour
     public List<Tile> adjecentTiles;
     public bool isFlagged;
 
+    private SpriteRenderer _rend;
     private float _holdTimer = .2f;
     private bool _isHolding;
     
     protected abstract void OnClickAction();
+
+    protected virtual void Awake()
+    {
+        _rend = GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -33,9 +39,9 @@ public abstract class Tile : MonoBehaviour
         isFlagged = !isFlagged;
 
         if (isFlagged)
-            GetComponent<SpriteRenderer>().color = Color.grey;
+            ChangeColor(Color.grey);
         else
-            GetComponent<SpriteRenderer>().color = Color.white;
+            ChangeColor(Color.white);
     }
 
     private void OnMouseUp()
@@ -49,5 +55,10 @@ public abstract class Tile : MonoBehaviour
             return;
 
         OnClickAction();
+    }
+
+    public void ChangeColor(Color color)
+    {
+        _rend.color = color;
     }
 }

@@ -6,17 +6,12 @@ public class Bomb : Tile
 
     protected override void OnClickAction()
     {
+        foreach (Bomb bomb in TilesManager.Instance.bombs)
+            bomb.ChangeColor(Color.red);
+
         foreach (Tile tile in TilesManager.Instance.tiles)
-        {
-            if (tile == null)
-                continue;
+            tile.enabled = false;
 
-            if (!tile.gameObject.IsBomb())
-                continue;
-
-            tile.GetComponent<SpriteRenderer>().color = Color.red;
-        }
-
-        Helpers.RestartLevel();
+        EndScreen.Instance.Show();
     }
 }

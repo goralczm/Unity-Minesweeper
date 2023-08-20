@@ -7,8 +7,9 @@ public class Plate : Tile
 
     private TextMeshPro _text;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _text = transform.GetChild(0).GetComponent<TextMeshPro>();
     }
 
@@ -20,17 +21,17 @@ public class Plate : Tile
             return;
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (adjecentTiles == null)
             return;
 
         foreach (Tile tile in adjecentTiles)
         {
-            if (tile == null)
+            if (!tile.gameObject.activeSelf)
                 continue;
 
             if (tile.gameObject.IsBomb())
@@ -43,7 +44,7 @@ public class Plate : Tile
                 continue;
             }
 
-            Destroy(tile.gameObject);
+            tile.gameObject.SetActive(false);
         }
     }
 

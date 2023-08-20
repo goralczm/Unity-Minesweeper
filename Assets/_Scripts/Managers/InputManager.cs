@@ -15,6 +15,10 @@ public class InputManager : Singleton<InputManager>
     private void Update()
     {
         ScrollWheel = Input.GetAxis("Mouse ScrollWheel");
+
+        if (_camera == null)
+            _camera = Camera.main;
+
         MouseWorldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
     }
 }

@@ -58,22 +58,35 @@ public static class CellAssignment
         for (int i = 0; i < tiles.Length; i++)
         {
             tiles[i].adjecentTiles = new List<Tile>();
-            int[] adjecentIndexes = { i + gridWidth - 1,
-                                      i + gridWidth,
-                                      i + gridWidth + 1,
-                                      i - 1,
-                                      i + 1,
-                                      i - gridWidth - 1,
-                                      i - gridWidth,
-                                      i - gridWidth + 1};
 
-            foreach (int adjecentIndex in adjecentIndexes)
-            {
-                if (0 > adjecentIndex || adjecentIndex > tiles.Length - 1)
-                    continue;
+            bool IsLeft = i == 0 || i % gridWidth == 0;
+            bool IsRight = (i + 1) % gridWidth == 0;
+            bool IsDown = i < gridWidth;
+            bool IsUp = i > tiles.Length - 1 - gridWidth;
 
-                tiles[i].adjecentTiles.Add(tiles[adjecentIndex]);
-            }
+            if (!IsDown)
+                tiles[i].adjecentTiles.Add(tiles[i - gridWidth]);
+
+            if (!IsUp)
+                tiles[i].adjecentTiles.Add(tiles[i + gridWidth]);
+
+            if (!IsLeft)
+                tiles[i].adjecentTiles.Add(tiles[i - 1]);
+
+            if (!IsRight)
+                tiles[i].adjecentTiles.Add(tiles[i + 1]);
+
+            if (!IsLeft && !IsDown)
+                tiles[i].adjecentTiles.Add(tiles[i - gridWidth - 1]);
+
+            if (!IsRight && !IsDown)
+                tiles[i].adjecentTiles.Add(tiles[i - gridWidth + 1]);
+
+            if (!IsLeft && !IsUp)
+                tiles[i].adjecentTiles.Add(tiles[i + gridWidth - 1]);
+
+            if (!IsRight && !IsUp)
+                tiles[i].adjecentTiles.Add(tiles[i + gridWidth + 1]);
         }
     }
 

@@ -9,10 +9,11 @@ public class CameraScroll : MonoBehaviour
     private InputManager _inputManager;
     private Camera _camera;
     
-    void Start()
+    void Awake()
     {
         _inputManager = InputManager.Instance;
         _camera = Camera.main;
+        maxZoom = 10f;
     }
 
     void Update()

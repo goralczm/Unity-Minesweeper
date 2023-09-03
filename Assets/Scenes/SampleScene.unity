@@ -639,7 +639,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 628111ca7f385ec48a475e207159fc0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellPrefab: {fileID: 4755471877518015988, guid: f440893bce094644fb324ecbe0a065b9, type: 3}
+  _platePrefab: {fileID: 7543842748405103882, guid: f440893bce094644fb324ecbe0a065b9, type: 3}
+  _bombPrefab: {fileID: 9186325133492819158, guid: 58167afe7a8294a4e8d2579e733ea411, type: 3}
   _gap: 0.15
 --- !u!1 &455133661
 GameObject:
@@ -1021,7 +1022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxZoom: 0
-  minZoom: 5
+  minZoom: 4
 --- !u!1 &528929997
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,6 +2047,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bd25a3cded8c746b74511bf6bb69e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEndActions:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 519420033}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 519420034}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _text: {fileID: 75254122}
 --- !u!1 &1929341178
 GameObject:
   m_ObjectHideFlags: 0

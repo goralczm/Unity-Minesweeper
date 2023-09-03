@@ -20,7 +20,7 @@ public static class CellAssignment
         return bombIndexes;
     }
 
-    public static void AssignTiles(GameObject[] cells, int minesCount)
+    public static void AssignTiles(Vector2[] cells, int minesCount, Transform parent, Plate _platePrefab, Bomb _bombPrefab)
     {
         Tile[] tiles = new Tile[cells.Length];
         Plate[] plates = new Plate[cells.Length - minesCount];
@@ -34,13 +34,13 @@ public static class CellAssignment
         {
             if (bombIndexes.Contains(i))
             {
-                tiles[i] = cells[i].AddComponent<Bomb>();
+                tiles[i] = Object.Instantiate(_bombPrefab, cells[i], Quaternion.identity, parent);
                 bombs[currentBombs] = tiles[i] as Bomb;
                 currentBombs++;
                 continue;
             }
 
-            tiles[i] = cells[i].AddComponent<Plate>();
+            tiles[i] = Object.Instantiate(_platePrefab, cells[i], Quaternion.identity, parent);
             plates[currentPlates] = tiles[i] as Plate;
             currentPlates++;
         }

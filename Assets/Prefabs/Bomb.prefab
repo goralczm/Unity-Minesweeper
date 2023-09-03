@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 9062818454114242770}
   - component: {fileID: 5350230204764483368}
   - component: {fileID: -8887666171507486894}
-  - component: {fileID: 7543842748405103882}
+  - component: {fileID: 9186325133492819158}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7543842748405103882
+--- !u!114 &9186325133492819158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4755471877518015988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4a6bc8d63f4634866e091cd376db8f, type: 3}
+  m_Script: {fileID: 11500000, guid: f626e4dee6004f198a99a3ecbb457d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _normalSprite: {fileID: 21300000, guid: 58c0277f7a1a43b4f805e3bc7f985f0d, type: 3}
@@ -130,7 +130,7 @@ MonoBehaviour:
   adjecentTiles: []
   isFlagged: 0
   _rend: {fileID: 0}
-  nearbyBombs: 0
+  _bombSprite: {fileID: 21300000, guid: 04d931f23dacf2d41b4470e6e529c3e3, type: 3}
 --- !u!1 &8425705381794008545
 GameObject:
   m_ObjectHideFlags: 0

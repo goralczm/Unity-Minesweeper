@@ -3,11 +3,11 @@ using UnityEngine;
 
 public static class CameraUtility
 {
-    public static void SetCameraPosition(GameObject[] cells, int borderOffset)
+    public static void SetCameraPosition(Vector2[] cells, int borderOffset)
     {
         Bounds bounds = new Bounds();
-        foreach (GameObject cell in cells)
-            bounds.Encapsulate(cell.transform.position);
+        foreach (Vector2 cell in cells)
+            bounds.Encapsulate(cell);
 
         bounds.Expand(borderOffset);
 

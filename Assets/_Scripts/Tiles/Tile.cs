@@ -5,18 +5,24 @@ public abstract class Tile : MonoBehaviour
 {
     public abstract string Name { get; }
 
+    [SerializeField] private Sprite _normalSprite;
+    [SerializeField] private Sprite _flaggedSprite;
+
     public List<Tile> adjecentTiles;
     public bool isFlagged;
 
-    private SpriteRenderer _rend;
+    [HideInInspector] public SpriteRenderer _rend;
     private float _holdTimer = .2f;
     private bool _isHolding;
-    
+
+    [HideInInspector] public TilesManager _tilesManager;
+
     protected abstract void OnClickAction();
 
     protected virtual void Awake()
     {
         _rend = GetComponent<SpriteRenderer>();
+        _tilesManager = TilesManager.Instance;
     }
 
     private void Update()
@@ -39,9 +45,11 @@ public abstract class Tile : MonoBehaviour
         isFlagged = !isFlagged;
 
         if (isFlagged)
-            ChangeColor(Color.grey);
+            _rend.sprite = _flaggedSprite;
         else
-            ChangeColor(Color.white);
+            _rend.sprite = _normalSprite;
+
+        _tilesManager.CheckAllBombsFlagged();
     }
 
     private void OnMouseUp()
@@ -55,10 +63,5 @@ public abstract class Tile : MonoBehaviour
             return;
 
         OnClickAction();
-    }
-
-    public void ChangeColor(Color color)
-    {
-        _rend.color = color;
     }
 }

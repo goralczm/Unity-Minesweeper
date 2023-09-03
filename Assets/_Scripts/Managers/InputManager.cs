@@ -2,23 +2,6 @@ using UnityEngine;
 
 public class InputManager : Singleton<InputManager>
 {
-    public float ScrollWheel { get; private set; }
-    public Vector2 MouseWorldPos { get; private set; }
-
-    private Camera _camera;
-
-    private void Start()
-    {
-        _camera = Camera.main;
-    }
-
-    private void Update()
-    {
-        ScrollWheel = Input.GetAxis("Mouse ScrollWheel");
-
-        if (_camera == null)
-            _camera = Camera.main;
-
-        MouseWorldPos = _camera.ScreenToWorldPoint(Input.mousePosition);
-    }
+    public float ScrollWheel => Input.GetAxis("Mouse ScrollWheel");
+    public Vector2 MouseWorldPos => Camera.main.ScreenToWorldPoint(Input.mousePosition);
 }

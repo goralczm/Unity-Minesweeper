@@ -42,6 +42,11 @@ public abstract class Tile : MonoBehaviour
         if (!Input.GetMouseButtonDown(1))
             return;
 
+        FlagTile();
+    }
+
+    public virtual void FlagTile()
+    {
         isFlagged = !isFlagged;
 
         if (isFlagged)

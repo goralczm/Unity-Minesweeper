@@ -641,7 +641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _platePrefab: {fileID: 7543842748405103882, guid: f440893bce094644fb324ecbe0a065b9, type: 3}
   _bombPrefab: {fileID: 9186325133492819158, guid: 58167afe7a8294a4e8d2579e733ea411, type: 3}
-  _gap: 0.15
+  _cellGap: 0.15
 --- !u!1 &455133661
 GameObject:
   m_ObjectHideFlags: 0

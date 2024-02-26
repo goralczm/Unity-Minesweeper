@@ -13,8 +13,19 @@ public class Plate : Tile
         _text = transform.GetChild(0).GetComponent<TextMeshPro>();
     }
 
+    public override void FlagTile()
+    {
+        if (_text.gameObject.activeSelf)
+            return;
+
+        base.FlagTile();
+    }
+
     protected override void OnClickAction()
     {
+        if (_text.gameObject.activeSelf)
+            return;
+
         if (nearbyBombs > 0)
         {
             ShowPlateText();

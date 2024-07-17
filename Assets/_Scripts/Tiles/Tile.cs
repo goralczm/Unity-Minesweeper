@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TileState
+{
+    Not_Flagged,
+    Flagged,
+}
+
 public abstract class Tile : MonoBehaviour
 {
     public abstract string Name { get; }
@@ -9,17 +15,23 @@ public abstract class Tile : MonoBehaviour
     [SerializeField] private Sprite _flaggedSprite;
 
     public List<Tile> adjecentTiles;
-    public bool isFlagged;
 
-    [HideInInspector] public SpriteRenderer _rend;
+    protected SpriteRenderer _rend;
+
+    private TileState _currentState;
     private float _holdTimer = .2f;
     private bool _isHolding;
 
     [HideInInspector] public TilesManager _tilesManager;
 
+    public TileState GetState()
+    {
+        return _currentState;
+    }
+
     protected abstract void OnClickAction();
 
-    protected virtual void Awake()
+    public virtual void Awake()
     {
         _rend = GetComponent<SpriteRenderer>();
         _tilesManager = TilesManager.Instance;
@@ -42,19 +54,30 @@ public abstract class Tile : MonoBehaviour
         if (!Input.GetMouseButtonDown(1))
             return;
 
-        FlagTile();
+        switch (_currentState)
+        {
+            case TileState.Not_Flagged:
+                FlagTile();
+                break;
+            case TileState.Flagged:
+                UnflagTile();
+                break;
+        }
     }
 
-    public virtual void FlagTile()
+    protected virtual void FlagTile()
     {
-        isFlagged = !isFlagged;
+        _rend.sprite = _flaggedSprite;
 
-        if (isFlagged)
-            _rend.sprite = _flaggedSprite;
-        else
-            _rend.sprite = _normalSprite;
-
+        _currentState = TileState.Flagged;
         _tilesManager.CheckAllBombsFlagged();
+    }
+
+    protected virtual void UnflagTile()
+    {
+        _rend.sprite = _normalSprite;
+
+        _currentState = TileState.Not_Flagged;
     }
 
     private void OnMouseUp()
@@ -64,7 +87,7 @@ public abstract class Tile : MonoBehaviour
         if (_holdTimer <= 0)
             return;
 
-        if (isFlagged)
+        if (GetState() == TileState.Flagged)
             return;
 
         OnClickAction();

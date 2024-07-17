@@ -3,17 +3,18 @@ using TMPro;
 public class Plate : Tile
 {
     public override string Name => "Plate";
+
     public int nearbyBombs;
 
     private TextMeshPro _text;
 
-    protected override void Awake()
+    public override void Awake()
     {
         base.Awake();
         _text = transform.GetChild(0).GetComponent<TextMeshPro>();
     }
 
-    public override void FlagTile()
+    protected override void FlagTile()
     {
         if (_text.gameObject.activeSelf)
             return;

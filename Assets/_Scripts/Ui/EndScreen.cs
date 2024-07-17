@@ -10,11 +10,6 @@ public class EndScreen : Singleton<EndScreen>
     [Header("Instances")]
     [SerializeField] private TextMeshProUGUI _text;
 
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void Win()
     {
         _text.SetText("<color=green>You won!</color>");
@@ -29,15 +24,7 @@ public class EndScreen : Singleton<EndScreen>
 
     private void End()
     {
-        if (_onEndActions != null)
-            _onEndActions.Invoke();
-
-        Show();
-    }
-
-    private void Show()
-    {
-        gameObject.SetActive(true);
+        _onEndActions?.Invoke();
     }
 
     public void Restart()

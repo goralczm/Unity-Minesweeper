@@ -8,12 +8,27 @@ public class TilesManager : Singleton<TilesManager>
     public Plate[] plates;
     public Bomb[] bombs;
 
-    public void CheckAllBombsFlagged()
+    private void OnEnable()
     {
-        int flagsCount = tiles.ToList().Count(t => t.GetState() == TileState.Flagged);
-        flagsCount += bombs.ToList().Count(t => t.GetState() == TileState.Flagged);
+        Tile.OnTileStateChanged += OnTileStateChanged;
+    }
 
-        if (flagsCount != bombs.Length)
+    private void OnDisable()
+    {
+        Tile.OnTileStateChanged -= OnTileStateChanged;
+    }
+
+    private void OnTileStateChanged(TileState tileState)
+    {
+        CheckAllBombsFlagged();
+    }
+
+    private void CheckAllBombsFlagged()
+    {
+        int flaggedBombs = bombs.ToList().Count(t => t.GetState() == TileState.Flagged);
+        int flaggedTiles = tiles.ToList().Count(t => t.GetState() == TileState.Flagged) - flaggedBombs;
+
+        if (flaggedTiles != 0 || flaggedBombs != bombs.Length)
             return;
 
         foreach (Bomb bomb in bombs)

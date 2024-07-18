@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GenerationProcess : MonoBehaviour
 {
     [SerializeField] private Plate _platePrefab;
     [SerializeField] private Bomb _bombPrefab;
     [SerializeField] private float _cellGap;
+    [SerializeField] private BombsCounter _counter;
+
+    [SerializeField] private UnityEvent _onGameStartedEvents;
 
     public void MakeBoard(int width, int height, int minesCount)
     {
@@ -15,5 +19,8 @@ public class GenerationProcess : MonoBehaviour
         CellAssignment.AssignAdjecentTiles(width);
         CellAssignment.CalculateNearbyBombs();
         PlateNaming.NamePlates();
+        _counter.SetCounter(minesCount);
+
+        _onGameStartedEvents?.Invoke();
     }
 }

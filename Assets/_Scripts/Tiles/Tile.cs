@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +23,9 @@ public abstract class Tile : MonoBehaviour
     private float _holdTimer = .2f;
     private bool _isHolding;
 
-    [HideInInspector] public TilesManager _tilesManager;
+    protected TilesManager _tilesManager;
+
+    public static Action<TileState> OnTileStateChanged;
 
     public TileState GetState()
     {
@@ -70,14 +73,14 @@ public abstract class Tile : MonoBehaviour
         _rend.sprite = _flaggedSprite;
 
         _currentState = TileState.Flagged;
-        _tilesManager.CheckAllBombsFlagged();
+        OnTileStateChanged?.Invoke(_currentState);
     }
 
     protected virtual void UnflagTile()
     {
         _rend.sprite = _normalSprite;
-
         _currentState = TileState.Not_Flagged;
+        OnTileStateChanged?.Invoke(_currentState);
     }
 
     private void OnMouseUp()

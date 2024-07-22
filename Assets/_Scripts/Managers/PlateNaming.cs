@@ -10,7 +10,7 @@ public static class PlateNaming
             if (plate.nearbyBombs == 0)
                 continue;
 
-            plate.SetPlateText(plate.nearbyBombs.ToString());
+            plate.SetPlateText(Colors.GetColoredText(Colors.GetColorByNumber(plate.nearbyBombs), plate.nearbyBombs.ToString()));
         }
     }
 }

@@ -11,13 +11,14 @@ public enum TileState
 public abstract class Tile : MonoBehaviour
 {
     public abstract string Name { get; }
+    public bool IsShown { get; protected set; }
 
     [SerializeField] private Sprite _normalSprite;
     [SerializeField] private Sprite _flaggedSprite;
 
-    public List<Tile> adjecentTiles;
+    public List<Tile> adjecentTiles = new List<Tile>();
 
-    protected SpriteRenderer _rend;
+    [SerializeField] protected SpriteRenderer _rend;
 
     private TileState _currentState;
     private float _holdTimer = .2f;
@@ -25,18 +26,19 @@ public abstract class Tile : MonoBehaviour
 
     protected TilesManager _tilesManager;
 
-    public static Action<TileState> OnTileStateChanged;
+    public static int FlagsLeft;
+
+    public static Action OnTileStateChanged;
 
     public TileState GetState()
     {
         return _currentState;
     }
 
-    protected abstract void OnClickAction();
+    public abstract void OnLeftClickAction();
 
     public virtual void Awake()
     {
-        _rend = GetComponent<SpriteRenderer>();
         _tilesManager = TilesManager.Instance;
     }
 
@@ -54,33 +56,38 @@ public abstract class Tile : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (!Input.GetMouseButtonDown(1))
-            return;
-
-        switch (_currentState)
+        if (Input.GetMouseButtonDown(1))
         {
-            case TileState.Not_Flagged:
-                FlagTile();
-                break;
-            case TileState.Flagged:
-                UnflagTile();
-                break;
+            switch (_currentState)
+            {
+                case TileState.Not_Flagged:
+                    FlagTile();
+                    break;
+                case TileState.Flagged:
+                    UnflagTile();
+                    break;
+            }
         }
     }
 
-    protected virtual void FlagTile()
+    public virtual void FlagTile()
     {
+        if (FlagsLeft <= 0)
+            return;
+
         _rend.sprite = _flaggedSprite;
 
         _currentState = TileState.Flagged;
-        OnTileStateChanged?.Invoke(_currentState);
+        FlagsLeft--;
+        OnTileStateChanged?.Invoke();
     }
 
-    protected virtual void UnflagTile()
+    public virtual void UnflagTile()
     {
         _rend.sprite = _normalSprite;
         _currentState = TileState.Not_Flagged;
-        OnTileStateChanged?.Invoke(_currentState);
+        FlagsLeft++;
+        OnTileStateChanged?.Invoke();
     }
 
     private void OnMouseUp()
@@ -93,6 +100,6 @@ public abstract class Tile : MonoBehaviour
         if (GetState() == TileState.Flagged)
             return;
 
-        OnClickAction();
+        OnLeftClickAction();
     }
 }

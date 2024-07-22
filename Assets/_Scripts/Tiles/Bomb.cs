@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities.AudioSystem;
 
 public class Bomb : Tile
 {
@@ -6,13 +7,31 @@ public class Bomb : Tile
 
     [SerializeField] private Sprite _bombSprite;
 
-    protected override void OnClickAction()
-    {
-        foreach (Bomb bomb in _tilesManager.bombs)
-            bomb.Explode();
+    private Sprite _defaultSprite;
 
-        foreach (Tile tile in _tilesManager.tiles)
-            tile.enabled = false;
+    private void Start()
+    {
+        _defaultSprite = GetComponent<SpriteRenderer>().sprite;
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKey(KeyCode.H))
+        {
+            if (_rend.sprite != _bombSprite)
+                _defaultSprite = _rend.sprite;
+
+            _rend.sprite = _bombSprite;
+        }
+        else if (Input.GetKeyUp(KeyCode.H))
+            _rend.sprite = _defaultSprite;
+#endif
+    }
+
+    public override void OnLeftClickAction()
+    {
+        StartCoroutine(_tilesManager.ExplosionSequence());
 
         EndScreen.Instance.Lose();
     }
@@ -20,5 +39,7 @@ public class Bomb : Tile
     public void Explode()
     {
         _rend.sprite = _bombSprite;
+        AudioSystem.Instance.PlaySoundFromGroup("sfx", "explosion");
+        IsShown = true;
     }
 }

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class BombsCounter : MonoBehaviour
+public class FlagsCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _counterText;
 
@@ -17,12 +17,9 @@ public class BombsCounter : MonoBehaviour
         Tile.OnTileStateChanged -= UpdateCounter;
     }
 
-    private void UpdateCounter(TileState tileState)
+    private void UpdateCounter()
     {
-        if (tileState == TileState.Not_Flagged)
-            _counter++;
-        else
-            _counter--;
+        _counter = Tile.FlagsLeft;
 
         UpdateCounterText();
     }

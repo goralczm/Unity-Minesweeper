@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CameraScroll : MonoBehaviour
 {
+    [SerializeField] private float _sensitivity = 10f;
+
     [HideInInspector] public float maxZoom;
 
     public float minZoom;
@@ -18,7 +20,7 @@ public class CameraScroll : MonoBehaviour
 
     void Update()
     {
-        float newCameraSize = _camera.orthographicSize - _inputManager.ScrollWheel * 10f;
+        float newCameraSize = _camera.orthographicSize - _inputManager.ScrollWheel * _sensitivity;
         newCameraSize = Mathf.Clamp(newCameraSize, minZoom, maxZoom);
         _camera.orthographicSize = newCameraSize;
     }

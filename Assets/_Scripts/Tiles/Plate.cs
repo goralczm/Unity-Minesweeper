@@ -14,7 +14,7 @@ public class Plate : Tile
         _text = transform.GetChild(0).GetComponent<TextMeshPro>();
     }
 
-    protected override void FlagTile()
+    public override void FlagTile()
     {
         if (_text.gameObject.activeSelf)
             return;
@@ -22,11 +22,32 @@ public class Plate : Tile
         base.FlagTile();
     }
 
-    protected override void OnClickAction()
+    public override void OnLeftClickAction()
     {
         if (_text.gameObject.activeSelf)
-            return;
+        {
+            if (adjecentTiles.FindAll(t => t.GetState() == TileState.Flagged).Count != nearbyBombs)
+                return;
 
+            foreach (Tile tile in adjecentTiles)
+            {
+                if (tile.GetState() == TileState.Flagged)
+                    continue;
+
+                if (tile is Plate)
+                    ((Plate)tile).ShowPlate();
+                else
+                    tile.OnLeftClickAction();
+            }
+
+            return;
+        }
+
+        ShowPlate();
+    }
+
+    public void ShowPlate()
+    {
         if (nearbyBombs > 0)
         {
             ShowPlateText();
@@ -68,5 +89,7 @@ public class Plate : Tile
     public void ShowPlateText()
     {
         _text.gameObject.SetActive(true);
+        IsShown = true;
+        OnTileStateChanged?.Invoke();
     }
 }

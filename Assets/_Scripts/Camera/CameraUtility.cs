@@ -13,7 +13,7 @@ public static class CameraUtility
         float horizontal = bounds.size.x * cam.pixelHeight / cam.pixelWidth;
 
         cam.transform.position = bounds.center + Vector3.back;
-        cam.orthographicSize = Mathf.Max(horizontal, vertical) * 0.5f;
+        cam.orthographicSize = Mathf.Max(horizontal, vertical) * .5f;
     }
 
     private static Bounds GetCameraBounds(Vector2[] cells, int borderOffset)

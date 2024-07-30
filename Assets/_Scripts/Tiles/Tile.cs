@@ -13,12 +13,9 @@ public abstract class Tile : MonoBehaviour
     public abstract string Name { get; }
     public bool IsShown { get; protected set; }
 
-    [SerializeField] private Sprite _normalSprite;
-    [SerializeField] private Sprite _flaggedSprite;
+    [SerializeField] private GameObject _flag;
 
     public List<Tile> adjecentTiles = new List<Tile>();
-
-    [SerializeField] protected SpriteRenderer _rend;
 
     private TileState _currentState;
     private float _holdTimer = .2f;
@@ -75,7 +72,7 @@ public abstract class Tile : MonoBehaviour
         if (FlagsLeft <= 0)
             return;
 
-        _rend.sprite = _flaggedSprite;
+        _flag.SetActive(true);
 
         _currentState = TileState.Flagged;
         FlagsLeft--;
@@ -84,7 +81,7 @@ public abstract class Tile : MonoBehaviour
 
     public virtual void UnflagTile()
     {
-        _rend.sprite = _normalSprite;
+        _flag.SetActive(false);
         _currentState = TileState.Not_Flagged;
         FlagsLeft++;
         OnTileStateChanged?.Invoke();

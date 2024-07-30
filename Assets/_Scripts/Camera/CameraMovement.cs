@@ -5,9 +5,11 @@ public class CameraMovement : MonoBehaviour
 {
     [SerializeField] private Rectangle _rectangleBorder;
 
-    private Vector2 _startDragPos;
-
     private InputManager _inputManager;
+    private Vector2 _startDragPos;
+    private float _startDragTime;
+
+    private const float DRAG_TIME_TRESHOLD = .12f;
 
     private void Start()
     {
@@ -16,15 +18,29 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        bool hasClickedMouseThisFrame = Input.GetMouseButtonDown(0);
+
+        if (hasClickedMouseThisFrame)
         {
-            _startDragPos = _inputManager.MouseWorldPos;
+            OnDragStart();
             return;
         }
 
-        if (!Input.GetMouseButton(0))
-            return;
+        bool isHoldingMouse = Input.GetMouseButton(0);
+        bool isHoldingLongEnough = Time.time - _startDragTime >= DRAG_TIME_TRESHOLD;
 
+        if (isHoldingMouse && isHoldingLongEnough)
+            OnDrag();
+    }
+
+    private void OnDragStart()
+    {
+        _startDragPos = _inputManager.MouseWorldPos;
+        _startDragTime = Time.time;
+    }
+
+    private void OnDrag()
+    {
         Vector2 offset = _inputManager.MouseWorldPos - (Vector2)transform.position;
         Vector2 dir = _startDragPos - offset;
         dir = _rectangleBorder.ClampPositionInside(dir);
